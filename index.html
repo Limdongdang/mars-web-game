@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phaser Game</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #000;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 20px;
+      background-color: #f04;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    #version {
+      position: absolute;
+      left: 5px;
+      top: 605px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button id="start-button">게임 시작</button> 
+    <div id="game-container" style="display:none;"></div> 
+
+  <script type="module" src="/main.js"></script> 
+</body>
+<footer><div id=version></div></footer>
+</html>
