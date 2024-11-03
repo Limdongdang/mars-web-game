@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-const DIAGONAL_SPEED = 160 / Math.sqrt(2);
+const DIAGONAL_SPEED = 180 / Math.sqrt(2);
 
 export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -10,16 +10,19 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
     this.name = "spaceShip";
     this.setCollideWorldBounds(true);
     this.invincible = false; // 무적 상태 플래그 추가
+
+    // 속도 설정
+    this.speed = 180;
   }
 
   update(cursors, pointer, curserKeys) {
     this.setVelocity(0);
 
     if (cursors.left.isDown) {
-      this.setVelocityX(-160);
+      this.setVelocityX(-this.speed);
       this.anims.play("spaceShip_left", true);
     } else if (cursors.right.isDown) {
-      this.setVelocityX(160);
+      this.setVelocityX(this.speed);
       this.anims.play("spaceShip_right", true);
     }
     // 터치 입력이 없을 때 
@@ -27,9 +30,9 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
         this.anims.play("spaceShip_straight", true);
     }
     if (cursors.up.isDown) {
-      this.setVelocityY(-160);
+      this.setVelocityY(-this.speed);
     } else if (cursors.down.isDown) {
-      this.setVelocityY(160);
+      this.setVelocityY(this.speed);
     }
 
     if (curserKeys) {
@@ -38,14 +41,14 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
             if (curserKeys[name].isDown) {
                 s += `${name} `;
                 if(name === "down"){
-                  this.setVelocityY(160);
+                  this.setVelocityY(this.speed);
                 } else if (name === "up"){
-                  this.setVelocityY(-160);
+                  this.setVelocityY(-this.speed);
                 } else if (name === "left"){
-                  this.setVelocityX(-160);
+                  this.setVelocityX(-this.speed);
                   this.anims.play("spaceShip_left", true);
                 } else if (name === "right"){
-                  this.setVelocityX(160);
+                  this.setVelocityX(this.speed);
                   this.anims.play("spaceShip_right", true);
                 } else if (name === "down_left"){
                   this.setVelocityY(DIAGONAL_SPEED);

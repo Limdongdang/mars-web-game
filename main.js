@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 import HelloWorldScene from "./src/scenes/HellowWorldScene";
+import GameClearScene from "./src/scenes/GameClearScene";
+import GameOverScene from "./src/scenes/GameOverScene";
 
 let game;
 
@@ -14,7 +16,7 @@ const config = {
       debug: false,
     },
   },
-  scene: HelloWorldScene,
+  scene: [HelloWorldScene, GameClearScene, GameOverScene],
   parent: "game-container",
   fps: {
     target: 60,

@@ -15,18 +15,8 @@ export function handleCollision(type, obj1, obj2) {
     spaceShip.hitEffect(); // 피격시 
     // 무적시간 부여
     spaceShip.setInvincible(1000);
-    if (this.lives <= 0) {
-      this.physics.pause();
-      spaceShip.setTint(0xff0000); // 비행기(obj1)를 빨간색으로 변경   
-
-      // 게임 오버 후 다시 시작 버튼 표시
-      setTimeout(() => {
-        window.showStartButton();
-      }, 2000);
-    }
   } else if (type === "planet") {
     // obj1과 obj2 중 planet과 다른 객체를 구분
-    console.log(obj1.texture.key, obj2.texture.key);
     const planet = obj1.texture.key === "planet" ? obj1 : obj2;
     const missile = obj1.texture.key === "planet" ? obj2 : obj1;
 
@@ -34,5 +24,17 @@ export function handleCollision(type, obj1, obj2) {
 
     missile.destroy();
     planet.reduceHealth(10, this);
+  } else if (type === "enemy1") {
+    const enemy = obj1.texture.key === "enemy1" ? obj1 : obj2;
+    const missile = obj1.texture.key === "enemy1" ? obj2 : obj1;
+
+    enemy.hit();
+    missile.destroy();
+  } else if(type === "boss") {
+    const boss = obj1.texture.key === "boss" ? obj1 : obj2;
+    const missile = obj1.texture.key === "boss" ? obj2 : obj1;
+
+    boss.hit();
+    missile.destroy();
   }
 }

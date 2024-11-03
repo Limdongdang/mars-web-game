@@ -2,15 +2,16 @@ import Phaser from "phaser";
 import { playPositionEffect } from "../utils/effects/EffectPlay";
 
 export default class Announcer extends Phaser.Physics.Arcade.Image {
-  constructor(scene, x, y) {
+  constructor(scene, x, y, textdata) {
     super(scene, x, y, "announcer");
     scene.add.existing(this);
     this.setScale(1);
-    this.fullText = '안녕하세요. 행성을 지키기 위해 미사일을 발사하세요.'; // Copilot 텍스트임 
+    this.fullTexts = textdata;
     this.currentText = '';
     this.textIndex = 0;
     this.lineLength = 20; // 한 줄에 표시할 글자 수
     this.scene = scene;
+    this.currentSentenceIndex = 0; // 현재 문장의 인덱스
     this.create();
   }
 
@@ -25,7 +26,7 @@ export default class Announcer extends Phaser.Physics.Arcade.Image {
     });
 
     // 타이머 이벤트를 사용하여 텍스트를 한 글자씩 추가
-    this.scene.time.addEvent({
+    this.textTimer = this.scene.time.addEvent({
       delay: 100, // 각 글자가 나타나는 시간 간격 (밀리초)
       callback: this.addCharacter,
       callbackScope: this,
@@ -36,30 +37,34 @@ export default class Announcer extends Phaser.Physics.Arcade.Image {
   }
 
   addCharacter() {
-    if (this.textIndex < this.fullText.length) {
-      this.currentText += this.fullText[this.textIndex];
-      this.text.setText(this.currentText);
-      this.textIndex++;
-    } else if(this.textIndex == this.fullText.length){
-      console.log("텍스트 출력 완료");
-      this.effect.stop();
-      // 텍스트 객체와 자신을 제거
-      this.scene.time.addEvent({
-        delay: 3000,
-        callback: () => {
-          this.text.destroy();
-          this.effect.destroy();
-          this.announcerFrame.destroy();
-          this.destroy();
-        },
-      });
-      this.textIndex++;
+    if (this.currentSentenceIndex < this.fullTexts.length) {
+      if (this.textIndex < this.fullTexts[this.currentSentenceIndex].length) {
+        this.currentText += this.fullTexts[this.currentSentenceIndex][this.textIndex];
+        this.text.setText(this.currentText);
+        this.textIndex++;
+      } else if (this.textIndex === this.fullTexts[this.currentSentenceIndex].length) {
+        this.effect.destroy();
+        this.currentSentenceIndex++;
+        if (this.currentSentenceIndex < this.fullTexts.length) {
+          // 다음 문장으로 넘어가기
+          this.currentText = '';
+          this.textIndex = 0;
+          this.effect = this.talking();
+        } else {
+          // 모든 문장을 다 읽었을 때
+          this.scene.time.addEvent({
+            delay: 3000,
+            callback: () => {
+              this.text.destroy();
+              this.effect.destroy();
+              this.announcerFrame.destroy();
+              this.destroy();
+            },
+          });
+          this.textTimer.remove(false); // 타이머 이벤트 제거
+        }
+      }
     }
-  }
-
-  destroyImage(){
-    this.setAlpha(0);
-    this.text.destroy();
   }
   
   formatText(text) {

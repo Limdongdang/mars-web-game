@@ -5,6 +5,7 @@ export default class Planet extends Phaser.Physics.Arcade.Image {
     super(scene, x, y, "planet");
     scene.add.existing(this);
     scene.physics.add.existing(this); // 물리 엔진에 추가
+    this.setScale(0.5);
     this.health = 100;
     this.scene = scene;
   }
