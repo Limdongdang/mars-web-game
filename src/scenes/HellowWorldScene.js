@@ -222,16 +222,16 @@ export default class HelloWorldScene extends Phaser.Scene {
     if (this.announcer?.active) {
       // 행성이 떨어지는 이벤트 잠시 중지
       this.planetEvent.paused = true;
-    } else if (this.phaseInProgress == 0 && this.phaseCount <= 2) {
+    } else if (this.phaseInProgress == 0 && this.phaseCount <= 1) {
       this.phase1();
-    } else if (this.phaseInProgress == 0 && this.phaseCount == 3) {
+    } else if (this.phaseInProgress == 0 && this.phaseCount == 2) {
       this.phaseCount++;
       const textdata = [
         "이제 거의 다 왔습니다 이제 마지막 적을 처치하고 마스로 가세요.",
       ];
       // 아나운서 생성
       this.announcer = new Announcer(this, 36, 100, textdata);
-    } else if (this.phaseInProgress == 0 && this.phaseCount == 4) {
+    } else if (this.phaseInProgress == 0 && this.phaseCount == 3) {
       this.phase2();
     } else {
       this.planetEvent.paused = false;

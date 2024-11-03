@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-const DIAGONAL_SPEED = 180 / Math.sqrt(2);
+const DIAGONAL_SPEED = 200 / Math.sqrt(2);
 
 export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -12,7 +12,7 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
     this.invincible = false; // 무적 상태 플래그 추가
 
     // 속도 설정
-    this.speed = 180;
+    this.speed = 200;
   }
 
   update(cursors, pointer, curserKeys) {
@@ -25,9 +25,9 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
       this.setVelocityX(this.speed);
       this.anims.play("spaceShip_right", true);
     }
-    // 터치 입력이 없을 때 
+    // 터치 입력이 없을 때
     else if (pointer.isDown === false) {
-        this.anims.play("spaceShip_straight", true);
+      this.anims.play("spaceShip_straight", true);
     }
     if (cursors.up.isDown) {
       this.setVelocityY(-this.speed);
@@ -36,40 +36,39 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
     }
 
     if (curserKeys) {
-      var s = 'Key down: ';
-        for (var name in curserKeys) {
-            if (curserKeys[name].isDown) {
-                s += `${name} `;
-                if(name === "down"){
-                  this.setVelocityY(this.speed);
-                } else if (name === "up"){
-                  this.setVelocityY(-this.speed);
-                } else if (name === "left"){
-                  this.setVelocityX(-this.speed);
-                  this.anims.play("spaceShip_left", true);
-                } else if (name === "right"){
-                  this.setVelocityX(this.speed);
-                  this.anims.play("spaceShip_right", true);
-                } else if (name === "down_left"){
-                  this.setVelocityY(DIAGONAL_SPEED);
-                  this.setVelocityX(-DIAGONAL_SPEED);
-                  this.anims.play("spaceShip_left", true);
-                } else if (name === "down_right"){
-                  this.setVelocityY(DIAGONAL_SPEED);
-                  this.setVelocityX(DIAGONAL_SPEED);
-                  this.anims.play("spaceShip_right", true);
-                } else if (name === "up_left"){
-                  this.setVelocityY(-DIAGONAL_SPEED);
-                  this.setVelocityX(-DIAGONAL_SPEED);
-                  this.anims.play("spaceShip_left", true);
-                }
-                else if (name === "up_right"){
-                  this.setVelocityY(-DIAGONAL_SPEED);
-                  this.setVelocityX(DIAGONAL_SPEED);
-                  this.anims.play("spaceShip_right", true);
-                }
-            }
+      var s = "Key down: ";
+      for (var name in curserKeys) {
+        if (curserKeys[name].isDown) {
+          s += `${name} `;
+          if (name === "down") {
+            this.setVelocityY(this.speed);
+          } else if (name === "up") {
+            this.setVelocityY(-this.speed);
+          } else if (name === "left") {
+            this.setVelocityX(-this.speed);
+            this.anims.play("spaceShip_left", true);
+          } else if (name === "right") {
+            this.setVelocityX(this.speed);
+            this.anims.play("spaceShip_right", true);
+          } else if (name === "down_left") {
+            this.setVelocityY(DIAGONAL_SPEED);
+            this.setVelocityX(-DIAGONAL_SPEED);
+            this.anims.play("spaceShip_left", true);
+          } else if (name === "down_right") {
+            this.setVelocityY(DIAGONAL_SPEED);
+            this.setVelocityX(DIAGONAL_SPEED);
+            this.anims.play("spaceShip_right", true);
+          } else if (name === "up_left") {
+            this.setVelocityY(-DIAGONAL_SPEED);
+            this.setVelocityX(-DIAGONAL_SPEED);
+            this.anims.play("spaceShip_left", true);
+          } else if (name === "up_right") {
+            this.setVelocityY(-DIAGONAL_SPEED);
+            this.setVelocityX(DIAGONAL_SPEED);
+            this.anims.play("spaceShip_right", true);
+          }
         }
+      }
     }
   }
 
@@ -90,7 +89,6 @@ export default class SpaceShip extends Phaser.Physics.Arcade.Sprite {
 
     // 충돌 무시
     this.body.checkCollision.none = true; // 충돌 검사 비활성화
-
 
     setTimeout(() => {
       this.invincible = false;
